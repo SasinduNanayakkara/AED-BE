@@ -1,7 +1,13 @@
+using AED_BE.Data;
+
 var builder = WebApplication.CreateBuilder(args);
+
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddServerSideBlazor();
+builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection());
+builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
@@ -17,6 +23,13 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller}/{action=Index}/{id?}");
+app.MapFallbackToFile("index.html");
+
+app.MapBlazorHub();
+app.MapFallbackToPage("/_Host");
 
 app.UseAuthorization();
 
