@@ -1,4 +1,5 @@
 using AED_BE.Data;
+using AED_BE.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,7 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection());
+builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("ConnectionStrings"));
+builder.Services.AddSingleton<ClientService>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
