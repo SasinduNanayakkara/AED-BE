@@ -52,13 +52,13 @@ namespace AED_BE.Controllers
             Client client = await _clientService.GetClientAsync(id);
             if (client == null)
             {
-                return NotFound("There is no client with this id: " + id);
+                return NotFound();
             }
 
             updatedClient.Id = client.Id;
             await _clientService.UpdateAsync(id, updatedClient);
 
-            return Ok("Updated successfully");
+            return Ok(updatedClient);
         }
 
         // DELETE api/client/5
