@@ -10,7 +10,7 @@ builder.Services.AddServerSideBlazor();
 builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("ConnectionStrings"));
 builder.Services.AddSingleton<ClientService>();
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddEndpointsApiExplorer();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -22,19 +22,11 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
 
-app.UseRouting();
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller}/{action=Index}/{id?}");
-app.MapFallbackToFile("index.html");
-
-app.MapBlazorHub();
-app.MapFallbackToPage("/_Host");
-
+ 
 app.UseAuthorization();
 
-app.MapRazorPages();
+
+app.MapControllers();
 
 app.Run();
