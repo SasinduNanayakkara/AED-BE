@@ -1,6 +1,7 @@
 ﻿using AED_BE.Data;
 using AED_BE.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
 namespace AED_BE.Services
@@ -9,11 +10,11 @@ namespace AED_BE.Services
     {
         private readonly IMongoCollection<Trains> _trainCollection;
 
-        public TrainService(IMongoCollection<DatabaseSettings> settings)
+        public TrainService(IOptions<DatabaseSettings> settings)
         {
             var mongoClient = new MongoClient(settings.Value.Connection);
             var mongoDb = mongoClient.GetDatabase(settings.Value.DatabaseName);
-            _trainCollection = mongoDb.GetCollection<Trains>("Train");
+            _trainCollection = mongoDb.GetCollection<Trains>("Trains");
         }
 
         public async Task CreateAsync(Trains newTrain) => await _trainCollection.InsertOneAsync(newTrain);
