@@ -18,7 +18,7 @@ namespace AED_BE.Models
         public string Name { get; set; }
 
         [BsonElement("date")]
-        public string Date { get; set; }
+        public List<string> Date { get; set; }
 
         [BsonElement("stations")]
         public List<Object> Stations { get; set; }

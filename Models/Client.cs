@@ -28,7 +28,7 @@ namespace AED_BE.Models
         [BsonElement("isActive")]
         public Boolean IsActive { get; set; }
 
-        [BsonElement("age")]
-        public int Age { get; set; }
+        [BsonElement("nic")]
+        public string NIC { get; set; }
     }
 }

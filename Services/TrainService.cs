@@ -25,7 +25,7 @@ namespace AED_BE.Services
 
         public async Task<Trains> GetTrainsByNumber(int trainNumber) => await _trainCollection.Find(x => x.TrainNo == trainNumber).FirstOrDefaultAsync();
 
-        public async Task<List<Trains>> FilterTrains(string date) => await _trainCollection.Find(x => x.Date == date).ToListAsync();
+        //public async Task<List<Trains>> FilterTrains(string date) => await _trainCollection.Find(x => x.Date == date).ToListAsync();
 
         public async Task UpdateTrain(string id, Trains newTrain) => await _trainCollection.ReplaceOneAsync(x => x.Id == id, newTrain);
 
