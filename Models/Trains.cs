@@ -21,7 +21,7 @@ namespace AED_BE.Models
         public List<string> Date { get; set; }
 
         [BsonElement("stations")]
-        public List<Object> Stations { get; set; }
+        public List<Stations> Stations { get; set; }
 
         public static implicit operator Trains(List<Trains> v)
         {
