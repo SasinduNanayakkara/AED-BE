@@ -1,6 +1,7 @@
 using AED_BE.Data;
 using AED_BE.Services;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -14,6 +15,14 @@ builder.Services.AddSingleton<TrainService>();
 builder.Services.AddSingleton<ReservationService>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader());
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -29,7 +38,7 @@ app.UseHttpsRedirection();
  
 app.UseAuthorization();
 
-
+app.UseCors("AllowAll");
 app.MapControllers();
 
 app.Run();
