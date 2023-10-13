@@ -1,7 +1,7 @@
 ﻿/**
  * @Author S.P. Rupasinghe
  * @Created 10/9/2023
- * @Description Implement Client API Controllers
+ * @Description Implement Password hashing algorithm
  **/
 using System;
 using System.Security.Cryptography;
