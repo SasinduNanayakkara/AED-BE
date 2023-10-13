@@ -22,7 +22,7 @@ namespace AED_BE.Services
 
         public async Task CreateAsync(Client newClient) => await _clientCollection.InsertOneAsync(newClient);
 
-        public async Task GetClientByEmail(string email) => await _clientCollection.Find(x => x.Email == email).FirstOrDefaultAsync();
+        public async Task<Client> GetClientByEmail(string email) => await _clientCollection.Find(x => x.Email == email).FirstOrDefaultAsync();
 
         public async Task UpdateAsync(string id, Client updatedClient) => await _clientCollection.ReplaceOneAsync(x => x.Id == id, updatedClient);
 

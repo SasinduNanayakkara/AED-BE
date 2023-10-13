@@ -1,27 +1,37 @@
 ﻿using AED_BE.Models;
 using AED_BE.Services;
 using Microsoft.AspNetCore.Mvc;
+using AED_BE.DTO;
+using AED_BE.DTO.RequestDto;
 
 namespace AED_BE.Controllers
 {
     [Route("api/login")]
     [ApiController]
-    public class LoginController
+    public class LoginController : ControllerBase
     {
-        private readonly ClientService _clientService;
-        private readonly EmployeeService _employeeService;
+      
+        private readonly LoginService _loginService;
 
-        public LoginController(ClientService clientService, EmployeeService employeeService)
+        public LoginController(LoginService loginService)
         {
-            _clientService = clientService;
-            _employeeService = employeeService;
+        
+            _loginService = loginService;
         }
 
-        //[HttpPost]
-        //public async Task<ActionResult<Object>> Post(string email, string password)
-        //{
+        [HttpPost]
+        public async Task<IActionResult> Post( [FromBody] LoginRequest loginRequest)
+        {
+            IActionResult response = Unauthorized();
+            String token = await _loginService.Login(loginRequest);
+            if (token != null) {
+                response = Ok(new { access_token = token });
+            }
+            return response;
 
-        //}
+        }
+
+      
 
     }
 }
