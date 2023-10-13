@@ -6,6 +6,6 @@
 using System;
 namespace AED_BE.DTO.RequestDto
 {
-    public record EmployeeLoginRequest(String email, String password);
+    public record EmployeeLoginRequest(String email, String password); //employee login request dto
 }
 

@@ -25,7 +25,7 @@ namespace AED_BE.Services
         private readonly IMongoCollection<Employee> _employeeCollection;
         private readonly IMongoCollection<Client> _clientCollection;
 
-        public LoginService(IOptions<DatabaseSettings> settings, IConfiguration config)
+        public LoginService(IOptions<DatabaseSettings> settings, IConfiguration config) //contructor
         {
             var mongoClient = new MongoClient(settings.Value.Connection);
             var mongoDb = mongoClient.GetDatabase(settings.Value.DatabaseName);
@@ -36,7 +36,7 @@ namespace AED_BE.Services
         }
 
 
-        public async Task<String> ClientLogin(ClientLoginRequest loginRequest)
+        public async Task<String> ClientLogin(ClientLoginRequest loginRequest) //login service
         {
             String token = null;
             UserDto user = await AuthenticateClient(loginRequest);
@@ -49,7 +49,7 @@ namespace AED_BE.Services
             return token;
         }
 
-        public async Task<String> EmployeeLogin(EmployeeLoginRequest loginRequest)
+        public async Task<String> EmployeeLogin(EmployeeLoginRequest loginRequest) //employee logice service
         {
             String token = null;
             UserDto user = await AuthenticateEmployee(loginRequest);
@@ -62,7 +62,7 @@ namespace AED_BE.Services
             return token;
         }
 
-        private string GenerateJSONWebToken(UserDto user)
+        private string GenerateJSONWebToken(UserDto user) //generate access token
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -87,7 +87,7 @@ namespace AED_BE.Services
                 };
         }
 
-        private async Task<UserDto> AuthenticateClient(ClientLoginRequest loginRequest)
+        private async Task<UserDto> AuthenticateClient(ClientLoginRequest loginRequest) //client authenticate
         {
 
             UserDto user = null;
@@ -116,7 +116,7 @@ namespace AED_BE.Services
 
         }
 
-        private async Task<UserDto> AuthenticateEmployee(EmployeeLoginRequest loginRequest)
+        private async Task<UserDto> AuthenticateEmployee(EmployeeLoginRequest loginRequest) //employee authenticate
         {
 
             UserDto user = null;
@@ -145,7 +145,7 @@ namespace AED_BE.Services
 
         }
 
-        private Boolean CheckPassword(String hash, String password)
+        private Boolean CheckPassword(String hash, String password) //password matching
         {
             string hashedPassword = GenericHasher.ComputeHash(password);
             if (hash == hashedPassword) { return true; } else { return false; }

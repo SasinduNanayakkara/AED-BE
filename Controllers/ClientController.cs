@@ -13,7 +13,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AED_BE.Controllers
 {
-    [Route("api/client")]
+    
+    [Route("api/client")] //Route
     [ApiController]
     public class ClientController : ControllerBase
     {
@@ -21,7 +22,7 @@ namespace AED_BE.Controllers
         private readonly ClientService _clientService;
         private readonly LoginService _loginService;
 
-        public ClientController(ClientService clientService, LoginService loginService)
+        public ClientController(ClientService clientService, LoginService loginService) //Constructor
         {
             _clientService = clientService;
             _loginService = loginService;
@@ -29,7 +30,7 @@ namespace AED_BE.Controllers
 
 
         [HttpPost("login")]
-        public async Task<IActionResult> Post([FromBody] ClientLoginRequest loginRequest)
+        public async Task<IActionResult> Post([FromBody] ClientLoginRequest loginRequest) //Login
         {
             IActionResult response = Unauthorized();
             String token = await _loginService.ClientLogin(loginRequest);
@@ -43,14 +44,14 @@ namespace AED_BE.Controllers
 
         // GET: api/client
         [HttpGet]
-        public async Task<List<Client>> Get()
+        public async Task<List<Client>> Get() //Get all Clients
         {
             return await _clientService.GetClientsAsync();
         }
 
         // GET api/client/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Client>> GetOneClient(string id)
+        public async Task<ActionResult<Client>> GetOneClient(string id) //Get one client
         {
             Client client = await _clientService.GetClientAsync(id);
             if (client == null)
@@ -62,7 +63,7 @@ namespace AED_BE.Controllers
 
         // POST api/client
         [HttpPost]
-        public async Task<ActionResult<Client>> Post(Client newClient)
+        public async Task<ActionResult<Client>> Post(Client newClient) // Create Client
         {
             await _clientService.CreateAsync(newClient);
             return CreatedAtAction(nameof(Get), new { id = newClient.Id }, newClient);
@@ -70,7 +71,7 @@ namespace AED_BE.Controllers
 
         // PUT api/client/5
         [HttpPut("{id}")]
-        public async Task<ActionResult> Put(string id, Client updatedClient)
+        public async Task<ActionResult> Put(string id, Client updatedClient) //update Client
         {
             Client client = await _clientService.GetClientAsync(id);
             if (client == null)
@@ -86,7 +87,7 @@ namespace AED_BE.Controllers
 
         // DELETE api/client/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(string id)
+        public async Task<ActionResult> Delete(string id) // Delete Client
         {
             Client client = await _clientService.GetClientAsync(id);
             if (client == null)

@@ -8,7 +8,7 @@ using MongoDB.Bson.Serialization.Attributes;
 namespace AED_BE.Models
 {
     [BsonIgnoreExtraElements]
-    public class Stations
+    public class Stations //Stations model
     {
         [BsonElement("station")]
         public string station { get; set; }

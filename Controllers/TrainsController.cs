@@ -9,31 +9,31 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AED_BE.Controllers
 {
-        [Route("api/train")]
+        [Route("api/train")] //Route
         [ApiController]
     public class TrainsController : ControllerBase
     {
         private readonly TrainService _trainService;
 
-        public TrainsController(TrainService trainService)
+        public TrainsController(TrainService trainService) //Constructor
         {
             _trainService = trainService;
         }
 
-        public async Task<ActionResult<Trains>> Post(Trains newtrains)
+        public async Task<ActionResult<Trains>> Post(Trains newtrains) //Create Train
         {
             await _trainService.CreateAsync(newtrains);
             return CreatedAtAction(nameof(Get), new { id = newtrains.Id }, newtrains);
         }
 
         [HttpGet]
-        public async Task<List<Trains>> Get()
+        public async Task<List<Trains>> Get() //Get all trains
         {
             return await _trainService.GetAllTrains();
         }
 
         [HttpGet("{trainNumber}")]
-        public async Task<ActionResult<Trains>> GetOneTrainByNumber(int number)
+        public async Task<ActionResult<Trains>> GetOneTrainByNumber(int number) // Get one train by number
         {
             Trains trains = await _trainService.GetTrainsByNumber(number);
             if (trains == null)
@@ -43,18 +43,9 @@ namespace AED_BE.Controllers
             return Ok(trains);
         }
 
-        //public async Task<List<Trains>> FilterTrains(string date)
-        //{
-        //    Trains trains = await _trainService.FilterTrains(date);
-        //    if (trains == null)
-        //    {
-        //        return trains;
-        //    return trains;
-        //}
-
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Put(string id, Trains updatedTrain)
+        public async Task<ActionResult> Put(string id, Trains updatedTrain) //Update train
         {
             Trains trains = await _trainService.GetOneTrain(id);
             if (trains == null)
@@ -68,7 +59,7 @@ namespace AED_BE.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(string id)
+        public async Task<ActionResult> Delete(string id) //Delete train
         {
             Trains trains = await _trainService.GetOneTrain(id);
             if (trains == null)

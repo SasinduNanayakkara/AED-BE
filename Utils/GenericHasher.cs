@@ -11,7 +11,7 @@ namespace AED_BE.Utils
 {
 	public class GenericHasher
 	{
-		public GenericHasher()
+		public GenericHasher() //password hashing
 		{
 		}
 

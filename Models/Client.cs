@@ -9,7 +9,7 @@ using MongoDB.Bson.Serialization.Attributes;
 namespace AED_BE.Models
 {
     [BsonIgnoreExtraElements]
-    public class Client
+    public class Client //Client model
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]

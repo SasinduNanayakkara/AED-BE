@@ -8,7 +8,7 @@ using MongoDB.Bson.Serialization.Attributes;
 namespace AED_BE.Models
 {
     [BsonIgnoreExtraElements]
-    public class Employee
+    public class Employee //Employee model
     {
         [BsonId]
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]

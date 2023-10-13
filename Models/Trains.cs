@@ -10,7 +10,7 @@ namespace AED_BE.Models
 {
     [BsonIgnoreExtraElements]
 
-    public class Trains
+    public class Trains //trains model
     {
         [BsonId]
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
