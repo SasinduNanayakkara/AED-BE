@@ -1,4 +1,9 @@
-﻿using AED_BE.Models;
+﻿/**
+ * @Author H.M.S.Y Nanayakkara
+ * @Created 10/1/2023
+ * @Description Implement Trains API Controllers
+ **/
+using AED_BE.Models;
 using AED_BE.Services;
 using Microsoft.AspNetCore.Mvc;
 

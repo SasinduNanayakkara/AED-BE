@@ -1,4 +1,10 @@
-﻿using AED_BE.DTO.RequestDto;
+﻿/**
+ * @Author E.M.S.D. Ekanayake
+ * @Created 10/1/2023
+ * @Description Implement Client API Controllers
+ **/
+
+using AED_BE.DTO.RequestDto;
 using AED_BE.Models;
 using AED_BE.Services;
 using Microsoft.AspNetCore.Mvc;

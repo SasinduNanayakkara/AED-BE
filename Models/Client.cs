@@ -1,4 +1,9 @@
-﻿using MongoDB.Bson;
+﻿/**
+ * @Author E.M.S.D. Ekanayake
+ * @Created 10/1/2023
+ * @Description Implement Client Model
+ **/
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace AED_BE.Models

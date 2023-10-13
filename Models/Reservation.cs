@@ -1,4 +1,9 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿/**
+ * @Author M.R.A. Perera
+ * @Created 10/2/2023
+ * @Description Implement Reservation Model
+ **/
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace AED_BE.Models
 {

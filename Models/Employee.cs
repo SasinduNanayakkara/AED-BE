@@ -1,4 +1,9 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿/**
+ * @Author S.P. Rupasinghe
+ * @Created 10/4/2023
+ * @Description Implement Employee Model
+ **/
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace AED_BE.Models
 {

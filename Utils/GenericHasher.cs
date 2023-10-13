@@ -1,4 +1,9 @@
-﻿using System;
+﻿/**
+ * @Author S.P. Rupasinghe
+ * @Created 10/9/2023
+ * @Description Implement Client API Controllers
+ **/
+using System;
 using System.Security.Cryptography;
 using System.Text;
 
