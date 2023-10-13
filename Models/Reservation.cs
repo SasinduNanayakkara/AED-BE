@@ -16,7 +16,7 @@ namespace AED_BE.Models
         public string NIC { get; set; }
 
         [BsonElement("trainId")]
-        public string TrainNumber { get; set; }
+        public int TrainNumber { get; set; }
 
         [BsonElement("date")]
         public string Date { get; set; }
