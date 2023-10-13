@@ -1,4 +1,5 @@
-﻿using AED_BE.Models;
+﻿using AED_BE.DTO.RequestDto;
+using AED_BE.Models;
 using AED_BE.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,10 +10,25 @@ namespace AED_BE.Controllers
     public class EmployeeController : ControllerBase
     {
         private readonly EmployeeService _employeeService;
+        private readonly LoginService _loginService;
 
-        public EmployeeController(EmployeeService employeeService)
+        public EmployeeController(EmployeeService employeeService, LoginService loginService)
         {
             _employeeService = employeeService;
+            _loginService = loginService;
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Post([FromBody] EmployeeLoginRequest loginRequest)
+        {
+            IActionResult response = Unauthorized();
+            String token = await _loginService.EmployeeLogin(loginRequest);
+            if (token != null)
+            {
+                response = Ok(new { access_token = token });
+            }
+            return response;
+
         }
 
         [HttpPost]

@@ -31,15 +31,28 @@ namespace AED_BE.Services
         }
 
 
-        public async Task<String> Login(LoginRequest loginRequest)
+        public async Task<String> ClientLogin(ClientLoginRequest loginRequest)
         {
             String token = null;
-            UserDto user = await AuthenticateUser(loginRequest);
+            UserDto user = await AuthenticateClient(loginRequest);
 
             if (user != null)
             {
                 token = GenerateJSONWebToken(user);
               
+            }
+            return token;
+        }
+
+        public async Task<String> EmployeeLogin(EmployeeLoginRequest loginRequest)
+        {
+            String token = null;
+            UserDto user = await AuthenticateEmployee(loginRequest);
+
+            if (user != null)
+            {
+                token = GenerateJSONWebToken(user);
+
             }
             return token;
         }
@@ -63,26 +76,27 @@ namespace AED_BE.Services
             return new List<Claim>
                 {
                     new Claim("email", user.email),
+                    new Claim("nic", user.nic),
                     new Claim("role", user.role),
                     //Add more custom claims
                 };
         }
 
-        private async Task<UserDto> AuthenticateUser(LoginRequest loginRequest)
+        private async Task<UserDto> AuthenticateClient(ClientLoginRequest loginRequest)
         {
 
             UserDto user = null;
-
-            Client isClient = await _clientCollection.Find(x => x.Email == loginRequest.email).FirstOrDefaultAsync();
-            Employee isEmployee = await _employeeCollection.Find(x => x.Email == loginRequest.email).FirstOrDefaultAsync();
+            Client isClient = await _clientCollection.Find(x => x.NIC == loginRequest.nic).FirstOrDefaultAsync();
 
             if (isClient != null)
             {
-
                 if (CheckPassword(isClient.Password, loginRequest.password))
                 {
-
-                    user = new UserDto(email: isClient.Email, role: "cleint");
+                    user = new UserDto(
+                        id: isClient.Id,
+                        nic: isClient.NIC,
+                        email: isClient.Email,
+                        role: "cleint");
                     return user;
                 }
                 else
@@ -90,13 +104,28 @@ namespace AED_BE.Services
                     return user;
                 }
             }
-            else if (isEmployee != null)
+            else
             {
+                return user;
+            }
 
+        }
+
+        private async Task<UserDto> AuthenticateEmployee(EmployeeLoginRequest loginRequest)
+        {
+
+            UserDto user = null;
+            Employee isEmployee = await _employeeCollection.Find(x => x.Email == loginRequest.email).FirstOrDefaultAsync();
+
+            if (isEmployee != null)
+            {
                 if (CheckPassword(isEmployee.Password, loginRequest.password))
                 {
-
-                    user = new UserDto(email: isEmployee.Email, role: "employee");
+                    user = new UserDto(
+                        id: isEmployee.Id,
+                        nic: "",
+                        email: isEmployee.Email,
+                        role: isEmployee.Role);
                     return user;
                 }
                 else
@@ -113,11 +142,7 @@ namespace AED_BE.Services
 
         private Boolean CheckPassword(String hash, String password)
         {
-
-            PasswordHashing passwordHashing = new PasswordHashing();
-            byte[] salt;
-            string hashedPassword = passwordHashing.HashPassword(password, out salt);
-
+            string hashedPassword = GenericHasher.ComputeHash(password);
             if (hash == hashedPassword) { return true; } else { return false; }
         }
     }

@@ -1,4 +1,5 @@
-﻿using AED_BE.Models;
+﻿using AED_BE.DTO.RequestDto;
+using AED_BE.Models;
 using AED_BE.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,10 +13,26 @@ namespace AED_BE.Controllers
     {
 
         private readonly ClientService _clientService;
+        private readonly LoginService _loginService;
 
-        public ClientController(ClientService clientService)
+        public ClientController(ClientService clientService, LoginService loginService)
         {
             _clientService = clientService;
+            _loginService = loginService;
+        }
+
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Post([FromBody] ClientLoginRequest loginRequest)
+        {
+            IActionResult response = Unauthorized();
+            String token = await _loginService.ClientLogin(loginRequest);
+            if (token != null)
+            {
+                response = Ok(new { access_token = token });
+            }
+            return response;
+
         }
 
         // GET: api/client

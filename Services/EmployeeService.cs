@@ -19,10 +19,7 @@ namespace AED_BE.Services
 
         public async Task CreateAsync(Employee newEmployee)
         {
-             PasswordHashing passwordHashing = new PasswordHashing();
-            byte[] salt;
-             string hashedPassword = passwordHashing.HashPassword(newEmployee.Password, out salt);
-
+             string hashedPassword = GenericHasher.ComputeHash(newEmployee.Password);
              newEmployee.Password = hashedPassword;
              await _employeeCollection.InsertOneAsync(newEmployee);
         }
