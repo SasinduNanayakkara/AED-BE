@@ -64,8 +64,8 @@ namespace AED_BE.Controllers
             return Ok(reservation);
         }
 
-        [HttpGet("{withTrainInfoById}")]
-        public async Task<ActionResult<ReservationWithTrainInfo>> GetReservationWithTrainInfoById([FromQuery] int reservationId)
+        [HttpGet("withtrain/{withTrainInfoById}")]
+        public async Task<ActionResult<ReservationWithTrainInfo>> GetReservationWithTrainInfoById(int reservationId)
         {
             var reservationWithTrainInfo = await _reservationsService.GetReservationWithTrainInfoById(reservationId);
 
