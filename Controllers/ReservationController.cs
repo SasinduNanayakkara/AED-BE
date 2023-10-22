@@ -3,9 +3,13 @@
  * @Created 30/9/2023
  * @Description Implement Client API Controllers
  **/
+using AED_BE.DTO.RequestDto;
 using AED_BE.Models;
 using AED_BE.Services;
+using Amazon.Runtime.Internal.Util;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection.Metadata;
+using System.Runtime.Intrinsics.X86;
 
 namespace AED_BE.Controllers
 {
@@ -33,16 +37,7 @@ namespace AED_BE.Controllers
             return await _reservationsService.GetAllReservation();
         }
 
-        [HttpGet("{reservationId}")]
-        public async Task<ActionResult<Reservation>> GetReservation(int number) // Get on reservation by number
-        {
-            Reservation reservation = await _reservationsService.GetReservationByNumber(number);
-            if (reservation == null)
-            {
-                return NotFound();
-            }
-            return Ok(reservation);
-        }
+        
 
         [HttpPut("{id}")]
         public async Task<ActionResult> Put(string id, Reservation updatedReservation) //Update reservation
@@ -67,6 +62,21 @@ namespace AED_BE.Controllers
             }
             await _reservationsService.DeleteAsync(id);
             return Ok(reservation);
+        }
+
+        [HttpGet("{withTrainInfoById}")]
+        public async Task<ActionResult<ReservationWithTrainInfo>> GetReservationWithTrainInfoById([FromQuery] int reservationId)
+        {
+            var reservationWithTrainInfo = await _reservationsService.GetReservationWithTrainInfoById(reservationId);
+
+            if (reservationWithTrainInfo != null)
+            {
+                return Ok(reservationWithTrainInfo);
+            }
+            else
+            {
+                return NotFound(); // Reservation not found.
+            }
         }
     }
 }

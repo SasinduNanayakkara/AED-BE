@@ -25,5 +25,10 @@ namespace AED_BE.Models
 
         [BsonElement("date")]
         public string Date { get; set; }
+
+        public static implicit operator Task(Reservation v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

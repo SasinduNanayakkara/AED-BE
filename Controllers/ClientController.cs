@@ -5,6 +5,7 @@
  **/
 
 using AED_BE.DTO.RequestDto;
+using AED_BE.DTO.ResponseDto;
 using AED_BE.Models;
 using AED_BE.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -33,10 +34,10 @@ namespace AED_BE.Controllers
         public async Task<IActionResult> Post([FromBody] ClientLoginRequest loginRequest) //Login
         {
             IActionResult response = Unauthorized();
-            String token = await _loginService.ClientLogin(loginRequest);
-            if (token != null)
+            LoginResponse user = await _loginService.ClientLogin(loginRequest);
+            if (user.accessToken != null)
             {
-                response = Ok(new { access_token = token });
+                response = Ok(new { access_token = user.accessToken, user = user.userDetails });
             }
             return response;
 

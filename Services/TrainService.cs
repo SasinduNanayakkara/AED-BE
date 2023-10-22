@@ -22,13 +22,21 @@ namespace AED_BE.Services
             _trainCollection = mongoDb.GetCollection<Trains>("Trains");
         }
 
+        public TrainService()
+        {
+        }
+
         public async Task CreateAsync(Trains newTrain) => await _trainCollection.InsertOneAsync(newTrain); //create train service
 
         public async Task<List<Trains>> GetAllTrains() => await _trainCollection.Find(_ => true).ToListAsync(); //get all train service
 
         public async Task<ActionResult<Trains>> GetOneTrain(string id) => await _trainCollection.Find(x => x.Id == id).FirstOrDefaultAsync(); //get one train service
 
-        public async Task<Trains> GetTrainsByNumber(int trainNumber) => await _trainCollection.Find(x => x.TrainNo == trainNumber).FirstOrDefaultAsync(); //get one reservation by number service
+        public async Task<Trains> GetTrainsByNumber(int trainNumber) //get one reservation by number service
+        {
+            Trains trains = await _trainCollection.Find(x => x.TrainNo == trainNumber).FirstOrDefaultAsync();
+            return trains;
+        }
 
         //public async Task<List<Trains>> FilterTrains(string date) => await _trainCollection.Find(x => x.Date == date).ToListAsync();
 

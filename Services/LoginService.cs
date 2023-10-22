@@ -14,6 +14,7 @@ using MongoDB.Driver;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using AED_BE.DTO.ResponseDto;
 
 namespace AED_BE.Services
 {
@@ -36,7 +37,7 @@ namespace AED_BE.Services
         }
 
 
-        public async Task<String> ClientLogin(ClientLoginRequest loginRequest) //login service
+        public async Task<LoginResponse> ClientLogin(ClientLoginRequest loginRequest) //login service
         {
             String token = null;
             UserDto user = await AuthenticateClient(loginRequest);
@@ -44,9 +45,15 @@ namespace AED_BE.Services
             if (user != null)
             {
                 token = GenerateJSONWebToken(user);
+                
               
             }
-            return token;
+            return new LoginResponse
+            {
+                accessToken = token,
+                userDetails = user
+
+            };
         }
 
         public async Task<String> EmployeeLogin(EmployeeLoginRequest loginRequest) //employee logice service
