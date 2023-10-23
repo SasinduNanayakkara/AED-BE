@@ -1,0 +1,39 @@
+﻿/**
+ * @Author E.M.S.D. Ekanayake
+ * @Created 10/1/2023
+ * @Description Implement Client Model
+ **/
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+
+namespace AED_BE.Models
+{
+    [BsonIgnoreExtraElements]
+    public class Client //Client model
+    {
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; } = string.Empty;
+
+        [BsonElement("firstname")]
+        public string FirstName { get; set; }
+
+        [BsonElement("lastname")]
+        public string LastName { get; set; }
+
+        [BsonElement("email")]
+        public string Email { get; set; }
+
+        [BsonElement("phone")]
+        public string Phone { get; set; }
+
+        [BsonElement("password")]
+        public string Password { get; set; }
+
+        [BsonElement("isActive")]
+        public Boolean IsActive { get; set; }
+
+        [BsonElement("nic")]
+        public string NIC { get; set; }
+    }
+}
