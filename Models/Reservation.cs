@@ -26,6 +26,12 @@ namespace AED_BE.Models
         [BsonElement("date")]
         public string Date { get; set; }
 
+        [BsonElement("startStation")]
+        public Stations startStation { get; set; }
+
+        [BsonElement("endStation")]
+        public Stations endStation { get; set; }
+
 
     }
 }

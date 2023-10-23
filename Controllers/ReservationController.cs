@@ -41,6 +41,11 @@ namespace AED_BE.Controllers
                 return Forbid();
             }
 
+            if (DateTime.Parse(req.date) > DateTime.Now.AddDays(30))
+            {
+                return Forbid();
+            }
+
             if (_client != null && _train != null)
             {
 
@@ -49,6 +54,9 @@ namespace AED_BE.Controllers
                 newReservation.Date = DateTime.Parse(req.date).ToString("yyyy-MM-dd").ToString();
                 newReservation.Client = _client;
                 newReservation.Train = _train;
+                newReservation.startStation = req.startStation;
+                newReservation.endStation = req.endStation;
+
                 await _reservationsService.Create(newReservation);
                 return CreatedAtAction(nameof(Get), new { id = newReservation.Id }, newReservation);
             }
