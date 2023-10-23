@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AED_BE.Controllers
 {
-    
+
     [Route("api/client")] //Route
     [ApiController]
     public class ClientController : ControllerBase
@@ -51,10 +51,10 @@ namespace AED_BE.Controllers
         }
 
         // GET api/client/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Client>> GetOneClient(string id) //Get one client
+        [HttpGet("{nic}")]
+        public async Task<ActionResult<Client>> GetOneClient(string nic) //Get one client
         {
-            Client client = await _clientService.GetClientAsync(id);
+            Client client = await _clientService.GetClientAsync(nic);
             if (client == null)
             {
                 return NotFound();
@@ -71,33 +71,48 @@ namespace AED_BE.Controllers
         }
 
         // PUT api/client/5
-        [HttpPut("{id}")]
-        public async Task<ActionResult> Put(string id, Client updatedClient) //update Client
+        [HttpPut("{nic}")]
+        public async Task<ActionResult> Put(string nic, Client updatedClient) //update Client
         {
-            Client client = await _clientService.GetClientAsync(id);
+            Client client = await _clientService.GetClientAsync(nic);
             if (client == null)
             {
                 return NotFound();
             }
 
             updatedClient.Id = client.Id;
-            await _clientService.UpdateAsync(id, updatedClient);
+            await _clientService.UpdateAsync(nic, updatedClient);
 
             return Ok(updatedClient);
         }
 
         // DELETE api/client/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(string id) // Delete Client
+        [HttpDelete("{nic}")]
+        public async Task<ActionResult> Delete(string nic) // Delete Client
         {
-            Client client = await _clientService.GetClientAsync(id);
+            Client client = await _clientService.GetClientAsync(nic);
             if (client == null)
             {
-                return NotFound("There is no client with this id: " + id);
+                return NotFound("There is no client with this nic: " + nic);
             }
 
-            await _clientService.DeleteAsync(id);
+            await _clientService.DeleteAsync(nic);
             return Ok("Deleted successfully");
+        }
+
+        [HttpGet("deactivate/{nic}")]
+        public async Task<ActionResult> Deactivate(string nic)
+        {
+            await _clientService.DeactivateClient(nic);
+            return Ok("Deactivated");
+        }
+
+
+        [HttpGet("activate/{nic}")]
+        public async Task<ActionResult> Activate(string nic)
+        {
+            await _clientService.ActivateClient(nic);
+            return Ok("Activated");
         }
     }
 }

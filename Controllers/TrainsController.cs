@@ -9,8 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AED_BE.Controllers
 {
-        [Route("api/train")] //Route
-        [ApiController]
+    [Route("api/train")] //Route
+    [ApiController]
     public class TrainsController : ControllerBase
     {
         private readonly TrainService _trainService;
@@ -45,15 +45,9 @@ namespace AED_BE.Controllers
 
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Put(string id, Trains updatedTrain) //Update train
+        public async Task<ActionResult<Trains>> Put(string id, Trains updatedTrain) //Update train
         {
-            Trains trains = await _trainService.GetOneTrain(id);
-            if (trains == null)
-            {
-                return NotFound();
-            }
-            
-            updatedTrain.Id = id;
+
             await _trainService.UpdateTrain(id, updatedTrain);
             return Ok(updatedTrain);
         }
@@ -61,11 +55,6 @@ namespace AED_BE.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(string id) //Delete train
         {
-            Trains trains = await _trainService.GetOneTrain(id);
-            if (trains == null)
-            {
-                return NotFound();
-            }
             await _trainService.DeleteTrain(id);
             return Ok("Deleted successfully");
         }
