@@ -36,7 +36,7 @@ namespace AED_BE.Controllers
         }
 
 
-        [HttpGet("list")]
+        [HttpGet("/stationlist")]
         public async Task<ActionResult<Trains>> GetTrainList() // Get one train by number
         {
             DataStation teachers;
