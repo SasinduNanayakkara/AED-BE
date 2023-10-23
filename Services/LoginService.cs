@@ -102,7 +102,7 @@ namespace AED_BE.Services
 
             if (isClient != null)
             {
-                if (CheckPassword(isClient.Password, loginRequest.password))
+                if (CheckPassword(isClient.Password, loginRequest.password) && isClient.IsActive == true)
                 {
                     user = new UserDto(
                         id: isClient.Id,
