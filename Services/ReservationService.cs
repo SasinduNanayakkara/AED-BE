@@ -27,6 +27,25 @@ namespace AED_BE.Services
 
         public async Task<List<Reservation>> GetAllReservation() => await _reservationCollection.Find(_ => true).ToListAsync(); //get all reservation serivce
 
+        public async Task<List<Reservation>> GetAllReservationByNIC(String nic)
+        {
+            return await _reservationCollection.Find(X => X.Client.NIC == nic).ToListAsync();
+
+        }//get all reservation serivce
+
+        public async Task<int> GetNextReservationID()
+        {
+            List<Reservation> reservations = await _reservationCollection.Find(_ => true).ToListAsync();
+            int maxid = 0;
+            for (int i = 0; i < reservations.Count; i++) {
+                if (maxid < reservations[i].ReservationId) {
+                    maxid = reservations[i].ReservationId;
+                }
+            }
+            return maxid + 1;
+
+        }//get all reservation serivce
+
         public async Task<Reservation> GetReservation(string id) => await _reservationCollection.Find(x => x.Id == id).FirstOrDefaultAsync(); //get one reservation service
 
         public async Task<Reservation> GetReservationByNumber(int number) => await _reservationCollection.Find(x => x.ReservationId == number).FirstOrDefaultAsync(); //get reservation by number service

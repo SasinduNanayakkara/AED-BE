@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
 using AED_BE.DTO;
+using AED_BE.DTO.RequestDto;
 
 namespace AED_BE.Controllers
 {
@@ -34,6 +35,42 @@ namespace AED_BE.Controllers
         {
             return await _trainService.GetAllTrains();
         }
+
+        [HttpPost]
+        public async Task<List<Trains>> FilterTrain(TrainFilterRequest request) //Get all trains
+        {
+            List<Trains> trains =  await _trainService.GetAllTrainsByDate(request.date);
+
+            List<Trains> filtredTrain = new List<Trains>();
+
+            for (int i = 0; i < trains.Count; i++) {
+                Trains train = trains[i];
+                List<Stations> stationArray = train.Stations;
+
+                int startindex =-1;
+                int endindex =-1;
+
+                for (int j = 0; j < stationArray.Count; j++) {
+
+                    if (stationArray[j].Station.Equals(request.startStation)) {
+                        startindex = j;
+                    }
+
+                    if (stationArray[j].Station.Equals(request.endStation))
+                    {
+                        endindex = j;
+                    }
+
+                }
+
+                if (startindex != -1 && endindex != -1 && startindex < endindex) {
+                    filtredTrain.Add(train);
+                }
+            }
+
+            return filtredTrain;
+        }
+
 
 
         [HttpGet("stationlist")]

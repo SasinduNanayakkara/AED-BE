@@ -18,17 +18,44 @@ namespace AED_BE.Controllers
     public class ReservationController : ControllerBase
     {
         private readonly ReservationService _reservationsService;
+        private readonly ClientService _clientService;
+        private readonly TrainService _trainService;
 
-        public ReservationController(ReservationService reservationsService) //Constructor
+        public ReservationController(ReservationService reservationsService, ClientService clientService, TrainService trainService) //Constructor
         {
             _reservationsService = reservationsService;
+            _clientService = clientService;
+            _trainService = trainService;
         }
 
         [HttpPost]
-        public async Task<ActionResult<Reservation>> Post(Reservation newReservation) //Create Reservation
+        public async Task<ActionResult<Reservation>> Post(ReservationRequest req) //Create Reservation
         {
-            await _reservationsService.Create(newReservation);
-            return CreatedAtAction(nameof(Get), new { id = newReservation.Id }, newReservation);
+            Client _client  = await _clientService.GetClientAsync(req.nic);
+            Trains _train = await _trainService.GetTrainsByNumber(req.trainNumber);
+            List<Reservation> reservations_list_by_nic = await _reservationsService.GetAllReservationByNIC(req.nic);
+            int nextReservationId = await _reservationsService.GetNextReservationID();
+
+
+            if (reservations_list_by_nic.Count >= 4) {
+                return Forbid();
+            }
+
+            if (_client != null && _train != null)
+            {
+
+                Reservation newReservation = new Reservation();
+                newReservation.ReservationId = nextReservationId;
+                newReservation.Date = DateTime.Parse(req.date).ToString("yyyy-MM-dd").ToString();
+                newReservation.Client = _client;
+                newReservation.Train = _train;
+                await _reservationsService.Create(newReservation);
+                return CreatedAtAction(nameof(Get), new { id = newReservation.Id }, newReservation);
+            }
+            else {
+                return NotFound();
+            }
+
         }
 
         [HttpGet]

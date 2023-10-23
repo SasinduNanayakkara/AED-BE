@@ -8,6 +8,7 @@ using AED_BE.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using System.Globalization;
 
 namespace AED_BE.Services
 {
@@ -29,6 +30,13 @@ namespace AED_BE.Services
         public async Task CreateAsync(Trains newTrain) => await _trainCollection.InsertOneAsync(newTrain); //create train service
 
         public async Task<List<Trains>> GetAllTrains() => await _trainCollection.Find(_ => true).ToListAsync(); //get all train service
+
+        public async Task<List<Trains>> GetAllTrainsByDate(String date) {
+
+            DateTime parsedDate = DateTime.Parse(date);
+            String dateName = parsedDate.DayOfWeek.ToString();
+            return await _trainCollection.Find(X => X.Date.Contains(dateName)).ToListAsync();
+        }//get all trains by date
 
         public async Task<ActionResult<Trains>> GetOneTrain(string id) => await _trainCollection.Find(x => x.Id == id).FirstOrDefaultAsync(); //get one train service
 
