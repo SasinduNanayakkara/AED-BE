@@ -6,6 +6,9 @@
 using AED_BE.Models;
 using AED_BE.Services;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.IdentityModel.Tokens.Jwt;
+using AED_BE.DTO;
 
 namespace AED_BE.Controllers
 {
@@ -36,26 +39,20 @@ namespace AED_BE.Controllers
         [HttpGet("list")]
         public async Task<ActionResult<Trains>> GetTrainList() // Get one train by number
         {
-            HashSet<string> trainList = new HashSet<string>();
-
-            List<Trains> trains = await _trainService.GetAllTrains();
-
-            for (int i = 0; i < trains.Count; i++) {
-
-                List<Stations> stations = trains[i].Stations;
-
-                for (int j = 0; j < stations.Count; j++) {
-                    trainList.Add(stations[j].Station.ToString());
-                }
-
+            DataStation teachers;
+            var serializer = new JsonSerializer();
+            using (StreamReader reader = new("./stations.json"))
+            using (var textReader = new JsonTextReader(reader))
+            {
+                teachers = serializer.Deserialize<DataStation>(textReader);
             }
 
-            if (trains == null)
+            if (teachers == null)
             {
                 return NotFound();
             }
-           
-            return Ok(trainList);
+
+            return Ok(teachers);
         }
 
         [HttpGet("{trainNumber}")]
