@@ -75,16 +75,39 @@ namespace AED_BE.Controllers
 
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Put(string id, Reservation updatedReservation) //Update reservation
+        public async Task<ActionResult> Put(string id, ReservationRequest req) //Update reservation
         {
             Reservation reservation = await _reservationsService.GetReservation(id);
             if (reservation == null)
             {
                 return NotFound();
             }
-            updatedReservation.Id = reservation.Id;
-            await _reservationsService.UpdateAsync(id, updatedReservation);
-            return Ok(reservation);
+
+            Client _client = await _clientService.GetClientAsync(req.nic);
+            Trains _train = await _trainService.GetTrainsByNumber(req.trainNumber);
+
+
+            if (DateTime.Parse(req.date) > DateTime.Now.AddDays(30))
+            {
+                return Forbid();
+            }
+
+            if (_client != null && _train != null)
+            {
+                reservation.Date = DateTime.Parse(req.date).ToString("yyyy-MM-dd").ToString();
+                reservation.Client = _client;
+                reservation.Train = _train;
+                reservation.startStation = req.startStation;
+                reservation.endStation = req.endStation;
+
+                await _reservationsService.UpdateAsync(id, reservation);
+                return Ok(reservation);
+            }
+            else
+            {
+                return NotFound();
+            }
+          
         }
 
         [HttpDelete("{id}")]
