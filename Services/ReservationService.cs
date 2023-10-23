@@ -41,7 +41,7 @@ namespace AED_BE.Services
 
             if (reservation != null)
             {
-                var train = await _trainCollection.Find(t => t.TrainNo == reservation.TrainNumber).FirstOrDefaultAsync();
+                var train = await _trainCollection.Find(t => t.TrainNo == reservation.Train.TrainNo).FirstOrDefaultAsync();
 
                 if (train != null)
                 {
@@ -55,6 +55,16 @@ namespace AED_BE.Services
 
             return null; // Reservation not found.
         }
+        public async Task<List<Reservation>> GetPastReservations(string nic)
+        {
+            DateTime currentDate = DateTime.Now.Date;
+            return await _reservationCollection.Find(x => DateTime.Parse(x.Date) < currentDate && x.Client.NIC == nic).ToListAsync(); //get past reservations by client nic
+        }
 
+        public async Task<List<Reservation>> GetCurrntReservations(string nic)
+        {
+            DateTime currentDate = DateTime.Now.Date;
+            return await _reservationCollection.Find(x => DateTime.Parse(x.Date) >= currentDate && x.Client.NIC == nic).ToListAsync();//get current reservations by client nic
+        }
     }
 }

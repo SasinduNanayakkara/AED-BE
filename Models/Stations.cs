@@ -11,9 +11,9 @@ namespace AED_BE.Models
     public class Stations //Stations model
     {
         [BsonElement("station")]
-        public string station { get; set; }
+        public string Station { get; set; }
         [BsonElement("time")]
-        public string time { get; set; }
-        
+        public string Time { get; set; }
+
     }
 }

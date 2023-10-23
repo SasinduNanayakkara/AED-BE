@@ -28,14 +28,5 @@ namespace AED_BE.Models
         [BsonElement("stations")]
         public List<Stations> Stations { get; set; }
 
-        public static implicit operator Trains(List<Trains> v)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static implicit operator Trains(ActionResult<Trains> v)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

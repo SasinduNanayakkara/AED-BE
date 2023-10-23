@@ -17,18 +17,15 @@ namespace AED_BE.Models
         [BsonElement("reservationId")]
         public int ReservationId { get; set; }
 
-        [BsonElement("nic")]
-        public string NIC { get; set; }
+        [BsonElement("client")]
+        public Client Client { get; set; }
 
-        [BsonElement("trainId")]
-        public int TrainNumber { get; set; }
+        [BsonElement("train")]
+        public Trains Train { get; set; }
 
         [BsonElement("date")]
         public string Date { get; set; }
 
-        public static implicit operator Task(Reservation v)
-        {
-            throw new NotImplementedException();
-        }
+
     }
 }

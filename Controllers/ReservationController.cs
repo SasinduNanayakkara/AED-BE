@@ -15,7 +15,7 @@ namespace AED_BE.Controllers
 {
     [Route("api/reservation")] //Route
     [ApiController]
-    public class ReservationController: ControllerBase
+    public class ReservationController : ControllerBase
     {
         private readonly ReservationService _reservationsService;
 
@@ -37,7 +37,7 @@ namespace AED_BE.Controllers
             return await _reservationsService.GetAllReservation();
         }
 
-        
+
 
         [HttpPut("{id}")]
         public async Task<ActionResult> Put(string id, Reservation updatedReservation) //Update reservation
@@ -77,6 +77,17 @@ namespace AED_BE.Controllers
             {
                 return NotFound(); // Reservation not found.
             }
+        }
+
+        [HttpGet("past/{nic}")]
+        public async Task<List<Reservation>> GetPast(string nic)
+        {
+            return await _reservationsService.GetPastReservations(nic);
+        }
+        [HttpGet("current/{nic}")]
+        public async Task<List<Reservation>> GetCurrent(string nic)
+        {
+            return await _reservationsService.GetCurrntReservations(nic);
         }
     }
 }

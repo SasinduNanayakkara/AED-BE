@@ -16,10 +16,10 @@ namespace AED_BE.Models
         public string Id { get; set; } = string.Empty;
 
         [BsonElement("firstname")]
-        public string FirstName { get; set; } = "Client first name";
+        public string FirstName { get; set; }
 
         [BsonElement("lastname")]
-        public string LastName { get; set; } = "Client last name";
+        public string LastName { get; set; }
 
         [BsonElement("email")]
         public string Email { get; set; }
