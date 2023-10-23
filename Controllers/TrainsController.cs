@@ -103,7 +103,7 @@ namespace AED_BE.Controllers
             return Ok(teachers);
         }
 
-        [HttpGet("{trainNumber}")]
+        [HttpGet("{number}")]
         public async Task<ActionResult<Trains>> GetOneTrainByNumber(int number) // Get one train by number
         {
             Trains trains = await _trainService.GetTrainsByNumber(number);
