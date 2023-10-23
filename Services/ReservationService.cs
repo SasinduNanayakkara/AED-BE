@@ -74,6 +74,12 @@ namespace AED_BE.Services
 
             return null; // Reservation not found.
         }
+
+        public async Task<Reservation> GetReservationWithObjectId(String reservationId)
+        {           
+
+            return await _reservationCollection.Find(r => r.Id == reservationId).FirstOrDefaultAsync();
+        }
         public async Task<List<Reservation>> GetPastReservations(string nic)
         {
             DateTime currentDate = DateTime.Now.Date;

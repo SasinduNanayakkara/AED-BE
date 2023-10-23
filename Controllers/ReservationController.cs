@@ -99,20 +99,20 @@ namespace AED_BE.Controllers
             return Ok(reservation);
         }
 
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<ReservationWithTrainInfo>> GetReservationByObjectId(String reservationObId)
-        //{
-        //    var reservationWithTrainInfo = await _reservationsService.GetReservationWithTrainInfoById(reservationId);
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Reservation>> GetReservationByObjectId(String id)
+        {
+            var reservation = await _reservationsService.GetReservationWithObjectId(id);
 
-        //    if (reservationWithTrainInfo != null)
-        //    {
-        //        return Ok(reservationWithTrainInfo);
-        //    }
-        //    else
-        //    {
-        //        return NotFound(); // Reservation not found.
-        //    }
-        //}
+            if (reservation != null)
+            {
+                return Ok(reservation);
+            }
+            else
+            {
+                return NotFound(); // Reservation not found.
+            }
+        }
 
         [HttpGet("withtrain/{withTrainInfoById}")]
         public async Task<ActionResult<ReservationWithTrainInfo>> GetReservationWithTrainInfoById(int reservationId)

@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
 using AED_BE.DTO;
 using AED_BE.DTO.RequestDto;
+using AED_BE.DTO.ResponseDto;
 
 namespace AED_BE.Controllers
 {
@@ -37,11 +38,11 @@ namespace AED_BE.Controllers
         }
 
         [HttpPost("filter")]
-        public async Task<List<Trains>> FilterTrain(TrainFilterRequest request) //Get all trains
+        public async Task<List<FilterTrain>> FilterTrain(TrainFilterRequest request) //Get all trains
         {
             List<Trains> trains =  await _trainService.GetAllTrainsByDate(request.date);
 
-            List<Trains> filtredTrain = new List<Trains>();
+            List<FilterTrain> filtredTrain = new List<FilterTrain>();
 
             for (int i = 0; i < trains.Count; i++) {
                 Trains train = trains[i];
@@ -64,7 +65,17 @@ namespace AED_BE.Controllers
                 }
 
                 if (startindex != -1 && endindex != -1 && startindex < endindex) {
-                    filtredTrain.Add(train);
+
+                    FilterTrain newTrain = new FilterTrain();
+                    newTrain.id = train.Id;
+                    newTrain.trainNo = train.TrainNo;
+                    newTrain.name = train.Name;
+                    newTrain.date = train.Date;
+                    newTrain.stations = train.Stations;
+                    newTrain.startStation = train.Stations[startindex];
+                    newTrain.endStation = train.Stations[endindex];
+
+                    filtredTrain.Add(newTrain);
                 }
             }
 
