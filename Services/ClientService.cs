@@ -31,6 +31,7 @@ namespace AED_BE.Services
 
             string hashedPassword = GenericHasher.ComputeHash(newClient.Password);
             newClient.Password = hashedPassword;
+            newClient.IsActive = true;
             await _clientCollection.InsertOneAsync(newClient);
 
         }

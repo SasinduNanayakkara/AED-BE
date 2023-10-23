@@ -108,7 +108,7 @@ namespace AED_BE.Services
                         id: isClient.Id,
                         nic: isClient.NIC,
                         email: isClient.Email,
-                        role: "cleint");
+                        role: "client");
                     return user;
                 }
                 else
