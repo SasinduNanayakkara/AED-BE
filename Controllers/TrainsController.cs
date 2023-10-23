@@ -36,7 +36,7 @@ namespace AED_BE.Controllers
             return await _trainService.GetAllTrains();
         }
 
-        [HttpPost]
+        [HttpPost("filter")]
         public async Task<List<Trains>> FilterTrain(TrainFilterRequest request) //Get all trains
         {
             List<Trains> trains =  await _trainService.GetAllTrainsByDate(request.date);
